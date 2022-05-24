@@ -1,0 +1,54 @@
+!SESSION 2022-05-17 18:20:46.762 -----------------------------------------------
+eclipse.buildId=Version 1.7.0
+java.version=11.0.10
+java.vendor=AdoptOpenJDK
+BootLoader constants: OS=linux, ARCH=x86_64, WS=gtk, NL=en_US
+Command-line arguments:  -os linux -ws gtk -arch x86_64
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 4 4 2022-05-17 18:21:00.632
+!MESSAGE CubeMX plugin appears to be active, Log4j initialization might be too late.
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 1 1 2022-05-17 18:21:00.693
+!MESSAGE Log4j initialized with config file /home/renato/Proyectos/CESE_FIUBA/Arquitectura_de_microprocesadores/workspace/Codigos/.metadata/.log4j.xml
+
+!ENTRY com.st.stm32cube.ide.mcu.ide 1 1 2022-05-17 18:21:03.879
+!MESSAGE Started RMI Server, listening on port 41337
+
+!ENTRY org.eclipse.cdt.core 1 0 2022-05-17 18:25:43.757
+!MESSAGE Indexed 'adm_c16' (6 sources, 60 headers) in 0.715 sec: 2,275 declarations; 3,339 references; 12 unresolved inclusions; 1 syntax errors; 311 unresolved names (5.2%)
+
+!ENTRY org.eclipse.cdt.core 1 0 2022-05-17 18:28:51.440
+!MESSAGE Indexed 'adm_c16' (6 sources, 60 headers) in 0.312 sec: 2,275 declarations; 3,339 references; 12 unresolved inclusions; 1 syntax errors; 311 unresolved names (5.2%)
+!SESSION 2022-05-20 22:55:25.633 -----------------------------------------------
+eclipse.buildId=Version 1.7.0
+java.version=11.0.10
+java.vendor=AdoptOpenJDK
+BootLoader constants: OS=linux, ARCH=x86_64, WS=gtk, NL=en_US
+Command-line arguments:  -os linux -ws gtk -arch x86_64
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 4 4 2022-05-20 22:55:31.753
+!MESSAGE CubeMX plugin appears to be active, Log4j initialization might be too late.
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 1 1 2022-05-20 22:55:31.800
+!MESSAGE Log4j initialized with config file /home/renato/Proyectos/CESE_FIUBA/Arquitectura_de_microprocesadores/workspace/Codigos/.metadata/.log4j.xml
+
+!ENTRY com.st.stm32cube.ide.mcu.ide 1 1 2022-05-20 22:55:35.201
+!MESSAGE Started RMI Server, listening on port 41337
+!SESSION 2022-05-23 19:55:34.350 -----------------------------------------------
+eclipse.buildId=Version 1.7.0
+java.version=11.0.10
+java.vendor=AdoptOpenJDK
+BootLoader constants: OS=linux, ARCH=x86_64, WS=gtk, NL=en_US
+Command-line arguments:  -os linux -ws gtk -arch x86_64
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 4 4 2022-05-23 19:55:49.275
+!MESSAGE CubeMX plugin appears to be active, Log4j initialization might be too late.
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 1 1 2022-05-23 19:55:49.318
+!MESSAGE Log4j initialized with config file /home/renato/Proyectos/CESE_FIUBA/Arquitectura_de_microprocesadores/workspace/Codigos/.metadata/.log4j.xml
+
+!ENTRY com.st.stm32cube.ide.mcu.ide 1 1 2022-05-23 19:55:52.609
+!MESSAGE Started RMI Server, listening on port 41337
+
+!ENTRY org.eclipse.cdt.core 1 0 2022-05-23 19:57:54.017
+!MESSAGE Indexed 'Ejercicio_en_C' (26 sources, 86 headers) in 2.43 sec: 6,135 declarations; 32,861 references; 0 unresolved inclusions; 1 syntax errors; 2 unresolved names (0.0051%)

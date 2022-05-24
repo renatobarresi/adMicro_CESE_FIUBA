@@ -1,0 +1,20 @@
+20:53:12 **** Incremental Build of configuration Debug for project Ejercicio_en_C ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/API.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F429xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/API.d" -MT"Core/Src/API.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/API.o"
+arm-none-eabi-gcc -o "Ejercicio_en_C.elf" @"objects.list"   -mcpu=cortex-m4 -T"/home/renato/Proyectos/CESE_FIUBA/Arquitectura_de_microprocesadores/workspace/Codigos/Ejercicio_en_C/STM32F429ZITX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Ejercicio_en_C.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Ejercicio_en_C.elf
+ 
+arm-none-eabi-size   Ejercicio_en_C.elf 
+arm-none-eabi-objdump -h -S  Ejercicio_en_C.elf  > "Ejercicio_en_C.list"
+arm-none-eabi-objcopy  -O binary  Ejercicio_en_C.elf  "Ejercicio_en_C.bin"
+   text	   data	    bss	    dec	    hex	filename
+   7644	     20	   1636	   9300	   2454	Ejercicio_en_C.elf
+Finished building: default.size.stdout
+ 
+Finished building: Ejercicio_en_C.bin
+ 
+Finished building: Ejercicio_en_C.list
+ 
+
+20:53:12 Build Finished. 0 errors, 0 warnings. (took 669ms)
+

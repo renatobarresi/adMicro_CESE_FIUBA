@@ -1,0 +1,4 @@
+API.c:11:6:zeros	24	static
+API.c:16:6:productoEscalar32	32	static
+API.c:21:6:productoEscalar16	32	static
+API.c:30:6:productoEscalar12	32	static

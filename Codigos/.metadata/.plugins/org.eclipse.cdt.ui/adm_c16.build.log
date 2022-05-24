@@ -1,0 +1,7 @@
+18:29:22 **** Build of configuration Debug for project adm_c16 ****
+make -j12 all 
+make: *** No rule to make target '/home/renato/Proyectos/CESE_FIUBA/Arquitectura_de_microprocesadores/STM32Cube/Repository/STM32Cube_FW_F4_V1.27.0/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal.c', needed by 'Drivers/STM32F4xx_HAL_Driver/stm32f4xx_hal.o'.  Stop.
+"make -j12 all" terminated with exit code 2. Build might be incomplete.
+
+18:29:22 Build Failed. 1 errors, 0 warnings. (took 175ms)
+
