@@ -37,3 +37,66 @@ void productoEscalar12 (uint16_t * vectorIn, uint16_t * vectorOut, uint32_t long
 	}
 }
 
+void filtroVentana10(uint16_t * vectorIn, uint16_t * vectorOut, uint32_t longitudVectorIn){
+	uint16_t ventana = 10;
+
+	for(uint32_t i = 0; i < longitudVectorIn; i++){
+		uint16_t promedio = 0;
+		/*Verificar que existan los elementos minimos para el promedio*/
+		if(longitudVectorIn - i >  ventana){
+			for(uint8_t a = 0; a < ventana ; a++){
+				promedio += *(vectorIn + (i + a));
+			}
+			*(vectorOut+i) = promedio/ventana;
+		}else{
+			/*Obtener posicion auxiliar maxima*/
+			uint8_t posAux = ventana - (longitudVectorIn - i);
+			for(uint8_t a = i; a < longitudVectorIn ; a++){
+				promedio += *(vectorIn + (a));
+			}
+			for(uint8_t a = 0; a < posAux ; a++){
+				promedio += *(vectorIn + (a));
+			}
+			*(vectorOut+i) = promedio/ventana;
+		}
+	}
+}
+/*Divide a 32bit number into two 16bit parts, discard the LS half word and store the MS half word in the 16bit vectorOut*/
+void pack32to16(int32_t * vectorIn, int16_t *vectorOut, uint32_t longitud){
+	/*Check if number is greater than 32 bits*/
+	for(uint32_t i = 0; i < longitud; i++){
+		if(*(vectorIn + i) < 65535) *(vectorOut + i) = *(vectorIn + i);
+		else *(vectorOut + i) = (*(vectorOut + i) >> 16) & 0xFFFF;
+	}
+}
+int32_t max(int32_t * vectorIn, uint32_t longitud){
+	int32_t maxNum;
+	int32_t pos;
+	maxNum = *(vectorIn);
+	for(uint32_t i = 0; i<longitud; i++){
+		if(*(vectorIn + i) > maxNum){
+			//maxNum = *(vectorIn + i);
+			pos = i;
+		}
+	}
+	return pos;
+}
+void downsampleM(int32_t * vectorIn, int32_t * vectorOut, uint32_t longitud, uint32_t N){
+	uint32_t a = 0; //indice de vectorOut
+	for(uint32_t i = 0; i<longitud; i++){
+		if(i%N != 0){
+			*(vectorOut+a) = *(vectorIn+i);
+			a++;
+		}
+	}
+}
+void invertir(uint16_t * vector, uint32_t longitud){
+	uint16_t vecAux[longitud];
+	for(uint32_t i = 0; i < longitud; i++){
+		*(vecAux + (longitud-1-i) )= *(vector+i);
+	}
+	for(uint32_t i = 0; i < longitud; i++){
+		*(vector+i) = *(vecAux+i);
+	}
+}
+

@@ -2,3 +2,8 @@ API.c:11:6:zeros	24	static
 API.c:16:6:productoEscalar32	32	static
 API.c:21:6:productoEscalar16	40	static
 API.c:30:6:productoEscalar12	40	static
+API.c:40:6:filtroVentana10	40	static
+API.c:65:6:pack32to16	32	static
+API.c:72:9:max	32	static
+API.c:84:6:downsampleM	32	static
+API.c:93:6:invertir	40	dynamic

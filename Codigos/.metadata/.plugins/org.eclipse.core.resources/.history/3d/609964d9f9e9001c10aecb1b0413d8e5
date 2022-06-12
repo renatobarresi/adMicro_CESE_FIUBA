@@ -1,0 +1,81 @@
+/*
+ * API.c
+ *
+ *  Created on: May 23, 2022
+ *      Author: renato
+ */
+
+
+#include "API.h"
+
+void zeros(uint32_t * vector, uint32_t longitud){
+	for(uint32_t i = 0; i < longitud; i++){
+		*(vector + i) = 0;
+	}
+}
+void productoEscalar32(uint32_t * vectorIn, uint32_t * vectorOut, uint32_t longitud, uint32_t escalar){
+	for(uint32_t i = 0; i < longitud; i++){
+		*(vectorOut + i) = (*(vectorIn + i))*escalar;
+	}
+}
+void productoEscalar16 (uint16_t * vectorIn, uint16_t * vectorOut, uint32_t longitud, uint16_t escalar){
+	uint64_t producto;
+	for(uint32_t i = 0; i < longitud; i++){
+		producto = (*(vectorIn + i))*escalar;
+
+		if(producto < *(vectorIn + i)) *(vectorOut + i) = 65535;
+		else *(vectorOut + i) = producto;
+	}
+}
+void productoEscalar12 (uint16_t * vectorIn, uint16_t * vectorOut, uint32_t longitud, uint16_t escalar){
+	uint64_t producto;
+	for(uint32_t i = 0; i < longitud; i++){
+		producto = (*(vectorIn + i))*escalar;
+
+		if(producto > 4095) *(vectorOut + i) = 4095;
+		else *(vectorOut + i) = producto;
+	}
+}
+
+void filtroVentana10(uint16_t * vectorIn, uint16_t * vectorOut, uint32_t longitudVectorIn){
+	uint16_t ventana = 10;
+
+	for(uint32_t i = 0; i < longitudVectorIn; i++){
+		uint16_t promedio = 0;
+		/*Verificar que existan los elementos minimos para el promedio*/
+		if(longitudVectorIn - i >  ventana){
+			for(uint8_t a = 0; a < ventana ; a++){
+				promedio += *(vectorIn + (i + a));
+			}
+			*(vectorOut+i) = promedio/ventana;
+		}else{
+			/*Obtener posicion auxiliar maxima*/
+			uint8_t posAux = ventana - (longitudVectorIn - i);
+			for(uint8_t a = i; a < longitudVectorIn ; a++){
+				promedio += *(vectorIn + (a));
+			}
+			for(uint8_t a = 0; a < posAux ; a++){
+				promedio += *(vectorIn + (a));
+			}
+			*(vectorOut+i) = promedio/ventana;
+		}
+	}
+}
+/*Divide a 32bit number into two 16bit parts, discard the LS half word and store the MS half word in the 16bit vectorOut*/
+void pack32to16(int32_t * vectorIn, int16_t *vectorOut, uint32_t longitud){
+	/*Check if number is greater than 32 bits*/
+	for(uint32_t i = 0; i < longitud; i++){
+		if(*(vectorIn + i) < 65535) *(vectorOut + i) = *(vectorIn + i);
+		else *(vectorOut + i) = (*(vectorOut + i) >> 16) & 0xFFFF;
+	}
+}
+int32_t max(int32_t * vectorIn, uint32_t longitud){
+	return 1;
+}
+void downsampleM(int32_t * vectorIn, int32_t * vectorOut, uint32_t longitud, uint32_t N){
+
+}
+void invertir(uint16_t * vector, uint32_t longitud){
+
+}
+
