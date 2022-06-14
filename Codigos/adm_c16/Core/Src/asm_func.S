@@ -180,7 +180,6 @@
 @	r2: longitud
 .thumb_func
 	asm_pack32to16:
-	mov r3, 0
 	.asm_pack32to16_loop:
 		ldr r3, [r0], 4
 		lsr r3, 16

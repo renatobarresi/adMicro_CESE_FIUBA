@@ -6,6 +6,8 @@
  */
 
 
+#include <stdio.h>
+#include <sys/_stdint.h>
 #include "API.h"
 
 void zeros(uint32_t * vector, uint32_t longitud){
@@ -68,6 +70,7 @@ void pack32to16(int32_t * vectorIn, int16_t *vectorOut, uint32_t longitud){
 		*(vectorOut + i) = (int16_t) (*(vectorIn + i) >> 16);
 	}
 }
+
 int32_t max(int32_t * vectorIn, uint32_t longitud){
 	int32_t maxNum;
 	int32_t pos;
@@ -80,6 +83,7 @@ int32_t max(int32_t * vectorIn, uint32_t longitud){
 	}
 	return pos;
 }
+
 void downsampleM(int32_t * vectorIn, int32_t * vectorOut, uint32_t longitud, uint32_t N){
 	uint32_t a = 0; //indice de vectorOut
 	for(uint32_t i = 0; i<longitud; i++){
@@ -89,13 +93,49 @@ void downsampleM(int32_t * vectorIn, int32_t * vectorOut, uint32_t longitud, uin
 		}
 	}
 }
+
 void invertir(uint16_t * vector, uint32_t longitud){
     uint16_t auxVar;
     uint32_t auxLen = longitud >> 1;
-    printf("%d\n", longitud);
+
 	for(uint32_t i = 0; i < auxLen; i++){
 		auxVar = *(vector + (longitud - 1 -i));
 		*(vector + (longitud-1-i) ) = *(vector+i);
 		*(vector + i) = auxVar;
 	}
 }
+
+void corr(int16_t *vectorX, int16_t *vectorY, int32_t *vectorCorr, uint32_t longitud){
+
+	uint32_t longVecCorr = longitud*2 - 1;
+    uint32_t indexCorrelation; //index of items of vectors to multiply
+    uint32_t auxLong;
+
+    for(uint32_t i = 0; i<longVecCorr; i++){
+
+		int32_t sum = 0; //stores the sum of the products of the values of the vectors to multiply
+
+        if(i<longitud){
+            indexCorrelation = 0;
+            auxLong = (longitud - 1) - i;
+            while(indexCorrelation <= i){
+                sum += vectorX[indexCorrelation]*vectorY[auxLong];
+                indexCorrelation++;
+                auxLong++;
+            }
+        }else{
+            indexCorrelation = longitud-1;
+            auxLong = 2*(longitud - 1) - i;
+            while(auxLong >= 0){
+                sum += vectorX[indexCorrelation]*vectorY[auxLong];
+                if(auxLong == 0) break;
+                auxLong--;
+                indexCorrelation--;
+            }
+        }
+
+        /*Store the sum in vectorCorr*/
+        *(vectorCorr+i) = sum;
+	}
+}
+
