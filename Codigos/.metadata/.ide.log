@@ -998,3 +998,10 @@
 
 
 2022-06-11 14:13:50,247 [INFO] Activator:178 - !SESSION log4j initialized
+2022-06-13 20:09:54,027 [INFO] Activator:177 - 
+
+
+2022-06-13 20:09:54,057 [INFO] Activator:178 - !SESSION log4j initialized
+2022-06-14 10:00:56,113 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] Jun 14, 2022 10:00:56 AM java.util.prefs.FileSystemPreferences syncWorld
+2022-06-14 10:00:56,133 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] WARNING: Couldn't flush user prefs: java.util.prefs.BackingStoreException: Couldn't get file lock.
+2022-06-14 10:00:56,133 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] 

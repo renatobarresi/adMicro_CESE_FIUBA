@@ -159,7 +159,7 @@ int main(void)
 
   //const uint32_t Resultado = asm_sum (5, 3);
 
-  uint32_t vecIn[] = {60000, 4, 5};
+  uint16_t vecIn[] = {5, 4, 3, 6, 2};
   uint32_t vecOut[3];
   uint32_t longitud = 3;
 
@@ -167,7 +167,8 @@ int main(void)
   uint16_t vecOut2[3];
   uint32_t longitud2 = 3;
   //asm_productoEscalar32(vecIn, vecIn, longitud, 2);
-  asm_productoEscalar16(vecIn2, vecOut2, longitud2, 2);
+  //asm_productoEscalar16(vecIn2, vecOut2, longitud2, 2);
+  asm_invertir(vecIn, 5);
   /* USER CODE END 2 */
 
   /* Infinite loop */

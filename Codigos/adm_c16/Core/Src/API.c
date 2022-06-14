@@ -63,10 +63,9 @@ void filtroVentana10(uint16_t * vectorIn, uint16_t * vectorOut, uint32_t longitu
 }
 /*Divide a 32bit number into two 16bit parts, discard the LS half word and store the MS half word in the 16bit vectorOut*/
 void pack32to16(int32_t * vectorIn, int16_t *vectorOut, uint32_t longitud){
-	/*Check if number is greater than 32 bits*/
+	/*Check if number is greater than 16 bits*/
 	for(uint32_t i = 0; i < longitud; i++){
-		if(*(vectorIn + i) < 65535) *(vectorOut + i) = *(vectorIn + i);
-		else *(vectorOut + i) = (*(vectorOut + i) >> 16) & 0xFFFF;
+		*(vectorOut + i) = (int16_t) (*(vectorIn + i) >> 16);
 	}
 }
 int32_t max(int32_t * vectorIn, uint32_t longitud){
@@ -75,7 +74,7 @@ int32_t max(int32_t * vectorIn, uint32_t longitud){
 	maxNum = *(vectorIn);
 	for(uint32_t i = 0; i<longitud; i++){
 		if(*(vectorIn + i) > maxNum){
-			//maxNum = *(vectorIn + i);
+			maxNum = *(vectorIn + i);
 			pos = i;
 		}
 	}
@@ -91,12 +90,12 @@ void downsampleM(int32_t * vectorIn, int32_t * vectorOut, uint32_t longitud, uin
 	}
 }
 void invertir(uint16_t * vector, uint32_t longitud){
-	uint16_t vecAux[longitud];
-	for(uint32_t i = 0; i < longitud; i++){
-		*(vecAux + (longitud-1-i) )= *(vector+i);
-	}
-	for(uint32_t i = 0; i < longitud; i++){
-		*(vector+i) = *(vecAux+i);
+    uint16_t auxVar;
+    uint32_t auxLen = longitud >> 1;
+    printf("%d\n", longitud);
+	for(uint32_t i = 0; i < auxLen; i++){
+		auxVar = *(vector + (longitud - 1 -i));
+		*(vector + (longitud-1-i) ) = *(vector+i);
+		*(vector + i) = auxVar;
 	}
 }
-

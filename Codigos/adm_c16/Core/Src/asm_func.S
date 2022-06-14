@@ -10,6 +10,12 @@
 .global asm_productoEscalar16
 .global asm_productoEscalar12
 
+.global asm_filtroVentana10
+.global asm_pack32to16
+.global asm_max
+.global asm_downsampleM
+.global asm_invertir
+
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 @ Prototipo en "C":
 @   void asm_svc (void)
@@ -152,3 +158,100 @@
 			subs r2, 1
 			bne .asm_productoEscalar16_loop
 			bx lr
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@ Prototipo en "C":
+@   void asm_filtroVentana10(uint16_t * vectorIn, uint16_t * vectorOut, uint32_t longitudVectorIn);
+@
+@ Parametros recibidos:
+@   r0: *vectorIn
+@   r1: *vectorOut
+@	r2: longitudVectorIn
+.thumb_func
+	asm_filtroVentana10:
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@ Prototipo en "C":
+@ void asm_pack32to16(int32_t * vectorIn, int16_t *vectorOut, uint32_t longitud);
+@
+@ Parametros recibidos:
+@   r0: *vectorIn
+@   r1: *vectorOut
+@	r2: longitud
+.thumb_func
+	asm_pack32to16:
+	mov r3, 0
+	.asm_pack32to16_loop:
+		ldr r3, [r0], 4
+		lsr r3, 16
+		strh r3, [r1], 2
+		subs r1, 1
+		bne .asm_pack32to16_loop
+	bx lr
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@ Prototipo en "C":
+@int32_t asm_max(int32_t * vectorIn, uint32_t longitud);
+@
+@
+@ Parametros recibidos:
+@   r0: *vectorIn
+@   r1: longitud
+.thumb_func
+	asm_max:
+		ldr r2, [r0]
+		mov r4, 1
+		.asm_max_loop:
+			ldr r3, [r0], 4
+			cmp r3, r2
+			bgt greather_than
+			b contMax
+			greather_than:
+				mov r5, r4
+			contMax:
+				add r4, r4, 1
+				subs r1, 1
+				bne .asm_max_loop
+		bx lr
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@ Prototipo en "C":
+@void asm_downsampleM(int32_t * vectorIn, int32_t * vectorOut, uint32_t longitud, uint32_t N);
+@
+@ Parametros recibidos:
+@   r0: *vectorIn
+@   r1: *vectorOut
+@ 	r2: longitud
+@	r3: N
+.thumb_func
+	asm_downsampleM:
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@ Prototipo en "C":
+@ void asm_invertir(uint16_t * vector, uint32_t longitud);
+@
+@ Parametros recibidos:
+@   r0: *vector
+@   r1: longitud
+.thumb_func
+	asm_invertir:
+		lsr r2, r1, 1	//longitud >> 1
+		mov r3, 0		//i = 0
+		.asm_invertir_loop:
+			//vector + (longitud - i)
+			sub r4, r1, 1   //r4 = longitud - 1
+			sub r4, r4, r3  //r4 = longitud - 1 - i
+			add r4, r0, r4  //r4 (apunta a fin del vector) = vector + a
+			//r5 -> auxVar = *(vector + (longitud - 1 -i));
+			ldrh r5, [r4]
+			//(vector + (longitud-1-i) ) = *(vector+i);
+			ldrh r6, [r0], 2
+			strh r6, [r4]
+			//*(vector + i) = auxVar;
+			strh r5, [r0]
+
+			add r3, r3, 1 //i++
+			subs r2, 1
+			bne .asm_invertir_loop
+		bx lr
+
