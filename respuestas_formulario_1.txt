@@ -102,4 +102,52 @@ Cortex M
 
 3. La arquitectura load-store es una caracteristica de un conjunto de instructiones, en donde las instrucciones son divididas en dos categorias: las de acceso a memoria y operaciones con la unidad aritmetica logica. En ARM, solo las instrucciones LDR y STR pueden acceder a memoria, y para poder realizar operaciones se debe de mover a los datos en memoria a los registros pertinentes del banco de registros del procesador.   
  
+4. El mapa de memoria de los Cortex M3 y M4 tiene un espacio de direcciones de 4GB, que esta particionado en varias regiones como la de codigo, datos, perifericos y procesador. El uso del espacio de las regiones depende del fabricante y en general se utiliza solo una pequena parte de cada region, algunas regiones pueden no ser utilizadas.
+
+5. La ventaja de tener dos stack pointers, MSP y PSP radica en que es posible separar contextos de ejecucion. Esta ventaja se puede apreciar de mejor manera en los sistemas operativos, ya que se puede separar al stack del kernel con el stack de las aplicaciones. De esta manera si es que ocurre un error severo que afecta el stack de las aplicaciones, el kernel no es afectado por esto. 
+
+6. 
+
+7. 
+
+8. 
+
+9.
+
+10.
+
+11.
+
+12. Los "Core peripherals" son los perifericos de propios de los procesadores ARM, y su diferencia principal con los otros perifericos es que estos son definidos por los fabricantes de microcontroladores. Los core peripherals del cortex-M3 son el NVIC, SCB, SysTick timer y la MPU.
+
+13.
+
 14. Common Microcontroller Software Interface Standard o CMSIS, desarrollado por ARM, es una capa de abstraccion compuesta de APIs, frameworks y flujos de trabajo desarrollado para microcontroladores que utilizen procesadores ARM. Los componentes del CMSIS permiten al programador tener una interfaz al procesador y perifericos lo que conlleva a varias ventajas como por ejemplo; simplificacion del codigo, rehutilizacion de software y reduccion de la curva de aprendizaje para los desarrolladores.
+
+14.
+
+15.
+
+16.
+
+17. El SysTick o "system timer" es un periferico propio de varias familias de procesadores Cortex. En general, es utilizado para la generacion de unidad de tiempo en los sistemas operativos, facilitando asi a la portabilidad de los sistemas operativos, debido a que la generacion del tiempo se puede hacer de la misma manera en otros procesadores que cuenten con el SysTick.
+ 
+18. La MPU tiene como funciones principales la proteccion y definicion de atributos de regiones de memoria. En general se suele utilizar al MPU para hacer a los sistemas embebidos mas robustos, por ejemplo en un sistema operativo, puede evitar que una aplicacion escriba en memoria protegida que el kernel utiliza.  
+
+19. 
+
+20.
+
+21.
+
+ISA
+
+1.
+
+2.
+
+3.
+
+4.
+
+5.
