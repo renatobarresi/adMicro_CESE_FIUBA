@@ -106,17 +106,29 @@ Cortex M
 
 5. La ventaja de tener dos stack pointers, MSP y PSP radica en que es posible separar contextos de ejecucion. Esta ventaja se puede apreciar de mejor manera en los sistemas operativos, ya que se puede separar al stack del kernel con el stack de las aplicaciones. De esta manera si es que ocurre un error severo que afecta el stack de las aplicaciones, el kernel no es afectado por esto. 
 
-6. 
+6. Los procesadores Cortex-M3 y Cortex-M4 tienen dos modos de operacion:
 
-7. 
+-Thread Mode: Es el modo el cual el procesador inicia, y se ejecutan las instrucciones de la aplicacion. El procesador puede estar estar en modo privilegiado o no privilegiado.
 
-8. 
+-Handler Mode: Cuando se esta ejecutando el manejo de una excepcion, en este modo el procesador siempre esta en modo privilegiado.
+
+Los modos de privilegio definen el acceso de los modos de operacionj a los recursos del sistema.
+
+En el modo thread, el programa puede utilizar el registro CONTROL para cambiar de estado privilegiado a no privilegiado, y luego, por medio del manejo de una interrupcion puede utilizar el mismo registro para pasar de modo no privilegiado a privilegiado.
+
+7. El modelo de registros ortogonal indica que la mayoria de los registros pueden ser usados por las instrucciones, estos registros son de proposito general. 
+
+En los Cortex-M3/M4 se tienen 13 registros de proposito general, r0 a r12, que instrucciones como LDR, STR, ADD, etc utilizan. Ejemplo ldr r1, [r0] mov r2, 6 cmp r1 r2
+
+8. Posibilita utilizar menos ciclos del reloj para realizar ejecuciones condicionales, esto es debido a diferencia de instrucciones de branching como b o bx que vacian el pipeline, it mantiene  las instrucciones que esten en fetch y decode.
+Ejemplo:
 
 9. * El reseteo del procesador -que puede suceder de tres formas: power on reset, system reset y processor reset- hace que el PC sea cargado con la direccion de memoria de 0x00000000, luego el procesador lee los contenidos ubicados en esa direccion que es el MSP y en la direccion 0x00000004 esta el puntero al reset handler. El reset handler es una funcion que contiene distintas instrucciones para inicializar distintas funciones del microcontrolador y por ultimo realizar la llamada a main. 
    * NMI o Non maskable interrupt, es una ISR la cual no puede ser enmascarada/desactivada por PRIMASK o BASEPRI (flags que permiten desactivar las interrupciones)
    * Varias excepciones o ISR del procesador son utilizadas para indicar de que existio alguna falla en la ejecucion normal de instrucciones o acceso a memoria. Varias de estas ISR estan desactivadas por defecto y en cambio se utiliza al FaultHandler como funcion principal para denotar la existencia de errores. Al igual que las excepciones de resteo o NMI, el FaultHandler no se puede desactivar. 
 
-10.
+10. La pila o stack es buffer de memoria de tipo LIFO, que permite almacenar datos en la memoria volatil. Los procesadores ARM utilizan las instrucciones PUSH para guardar los datos y POP para leer los datos en la memoria.
+En los Cortex M3/M4 se utiliza el registro r13 para almacenar al stack pointer o SP, y la direccion inicial de este esta almacenada en el inicio de la tabla de vectores. Debido a que el modelo de stack utilizado es de tipo "Full descending", la direccion inicial del SP esta ubicado al final de la memoria RAM. Cuando se realiza el llamado a una funcion, se almacenan en el stack los valores del registro y para el retorno de la funcion se carga en el registro program counter el valor en el link register
 
 11. La secuencia de reset del procesador puede ser iniciada por tres tipos de reset:
 	1) Power on reset: Se resetea todo el microcontrolador
