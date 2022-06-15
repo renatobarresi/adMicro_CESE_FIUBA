@@ -157,9 +157,20 @@ int main(void)
   /* USER CODE BEGIN 2 */
   PrivilegiosSVC ();
 
+  int32_t res;
+  volatile uint32_t ciclos;
+  int32_t vecIn[] = {5, 4, 3, 6, 2};
+  DWT->CYCCNT = 0;
   //const uint32_t Resultado = asm_sum (5, 3);
+  res = asm_max(vecIn, 5);
+  ciclos = DWT -> CYCCNT;
 
-  uint16_t vecIn[] = {5, 4, 3, 6, 2};
+  /*DWT->CYCCNT = 0;
+  //const uint32_t Resultado = asm_sum (5, 3);
+  res = asm_max(vecIn, 5);
+  ciclos = DWT -> CYCCNT;*/
+
+
   uint32_t vecOut[3];
   uint32_t longitud = 3;
 
@@ -168,7 +179,8 @@ int main(void)
   uint32_t longitud2 = 3;
   //asm_productoEscalar32(vecIn, vecIn, longitud, 2);
   //asm_productoEscalar16(vecIn2, vecOut2, longitud2, 2);
-  asm_invertir(vecIn, 5);
+  //asm_invertir(vecIn, 5);
+
   /* USER CODE END 2 */
 
   /* Infinite loop */

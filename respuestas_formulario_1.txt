@@ -112,15 +112,22 @@ Cortex M
 
 8. 
 
-9.
+9. * El reseteo del procesador -que puede suceder de tres formas: power on reset, system reset y processor reset- hace que el PC sea cargado con la direccion de memoria de 0x00000000, luego el procesador lee los contenidos ubicados en esa direccion que es el MSP y en la direccion 0x00000004 esta el puntero al reset handler. El reset handler es una funcion que contiene distintas instrucciones para inicializar distintas funciones del microcontrolador y por ultimo realizar la llamada a main. 
+   * NMI o Non maskable interrupt, es una ISR la cual no puede ser enmascarada/desactivada por PRIMASK o BASEPRI (flags que permiten desactivar las interrupciones)
+   * Varias excepciones o ISR del procesador son utilizadas para indicar de que existio alguna falla en la ejecucion normal de instrucciones o acceso a memoria. Varias de estas ISR estan desactivadas por defecto y en cambio se utiliza al FaultHandler como funcion principal para denotar la existencia de errores. Al igual que las excepciones de resteo o NMI, el FaultHandler no se puede desactivar. 
 
 10.
 
-11.
+11. La secuencia de reset del procesador puede ser iniciada por tres tipos de reset:
+	1) Power on reset: Se resetea todo el microcontrolador
+	2) System reset: Se resetea solo el procesador y perifericos, pero no los componentes para el debugging.
+	3) Processor reset: Se restea solo al procesador.
+
+Al efectuarse el reset, el PC es cargado con la direccion de memoria de 0x00000000 y el procesador lee los contenidos de las primeras dos palabras, el MSP y el puntero al Reset Handler. Luego el procesador carga al stack pointer con el valor obtenido del MSP y al PC con el puntero al reset handler.
 
 12. Los "Core peripherals" son los perifericos de propios de los procesadores ARM, y su diferencia principal con los otros perifericos es que estos son definidos por los fabricantes de microcontroladores. Los core peripherals del cortex-M3 son el NVIC, SCB, SysTick timer y la MPU.
 
-13.
+13. 
 
 14. Common Microcontroller Software Interface Standard o CMSIS, desarrollado por ARM, es una capa de abstraccion compuesta de APIs, frameworks y flujos de trabajo desarrollado para microcontroladores que utilizen procesadores ARM. Los componentes del CMSIS permiten al programador tener una interfaz al procesador y perifericos lo que conlleva a varias ventajas como por ejemplo; simplificacion del codigo, rehutilizacion de software y reduccion de la curva de aprendizaje para los desarrolladores.
 
@@ -136,10 +143,9 @@ Cortex M
 
 19. 
 
-20.
+20. La excepcion PendSV es una interrupcion para solicitar servicios del sistema. Debido a que su nivel de interrupcion es de baja prioridad, se utiliza para solicitar un cambio de contexto de ejecucion de forma segura.
 
-21.
-
+21. El SVC (Supervisor Call) es una excepcion que es llamada luego de la ejecucion de la instruccion SVC. Esta instruccion es utilizada en los sistemas operativos para poder forzar a un cambio de contexto, en general para cambiar los privilegios de ejecucion. Asi el sistema operativo puede acceder a los recursos de hardware que considere necesario. 
 ISA
 
 1.

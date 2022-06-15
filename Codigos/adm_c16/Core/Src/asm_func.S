@@ -15,7 +15,7 @@
 .global asm_max
 .global asm_downsampleM
 .global asm_invertir
-
+.global asm_corr
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 @ Prototipo en "C":
 @   void asm_svc (void)
@@ -253,4 +253,14 @@
 			subs r2, 1
 			bne .asm_invertir_loop
 		bx lr
-
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@ Prototipo en "C":
+@void asm_corr(int16_t *vectorX, int16_t *vectorY, int32_t *vectorCorr, uint32_t longitud);
+@
+@ Parametros recibidos:
+@   r0: *vectorX
+@   r1: *vectorY
+@	r2: *vectorCorr
+@	r3: longitud
+.thumb_func
+	asm_corr:
