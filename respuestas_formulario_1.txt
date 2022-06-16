@@ -160,11 +160,23 @@ Al efectuarse el reset, el PC es cargado con la direccion de memoria de 0x000000
 21. El SVC (Supervisor Call) es una excepcion que es llamada luego de la ejecucion de la instruccion SVC. Esta instruccion es utilizada en los sistemas operativos para poder forzar a un cambio de contexto, en general para cambiar los privilegios de ejecucion. Asi el sistema operativo puede acceder a los recursos de hardware que considere necesario. 
 ISA
 
-1.
+1. Los sufijos son utilizados en conjunto con algunas instrucciones, ya sea de procesamiento de datos o de ejecucion condicional, para actualizar los bits del APSR (status register). Los bits de este registro luego pueden ser utilizados para cambiar el flujo del programa. 
 
-2.
+	Ejemplo: movne r0, r1 //mueve el valor en r1 a r0 si es que el flag z = 0.
 
-3.
+2. Se utiliza para actualizar al registro APSR.
+
+	Ejemplo: movs r0, #1 // carga al registro r0 el valor 1 y actualiza el registro APSR.
+			 mov r0, #1 // carga al registro r0 el valor 1.
+
+3. La saturacion aplica un tope a valores negativos o positivos que produzcan overflow. Sin importar que la variable haya sobrepasado su valor maximo, las instrucciones de aritmetica saturada forzan a que se mantenga en su valor maximo posible.
+
+	Ejemplo: 
+
+	uint8_t sum = 0;
+	for(;;) sum++;
+
+Al contar con aritmetica saturada, el valor de sum se mantiene en 255 sin importar que el bucle siga. Sin contar con aritmetica saturada el valor de sum vuelve a cero cada vez que sobrepasa 255.
 
 4.
 
