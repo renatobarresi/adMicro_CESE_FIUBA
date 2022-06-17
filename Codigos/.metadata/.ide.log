@@ -1018,3 +1018,7 @@
 2022-06-15 22:01:35,961 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] WARNING: Couldn't flush user prefs: java.util.prefs.BackingStoreException: Couldn't get file lock.
 2022-06-15 22:01:35,961 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] 
 2022-06-15 22:02:42,762 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] 
+2022-06-16 21:35:14,518 [INFO] Activator:177 - 
+
+
+2022-06-16 21:35:14,531 [INFO] Activator:178 - !SESSION log4j initialized

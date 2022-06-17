@@ -85,7 +85,7 @@ ejemplo.
 
 ##################-------Respuestas-------##################
 
-Preguntas orientadoras
+---------------------Preguntas orientadoras---------------------
 
 1. La primera familia de procesadores que ARM introdujo al mercado fue el ARM6, que tenia como ventaja principal respecto a los demas procesadores de 32-bits la capacidad de soportar dos set de instrucciones. Tambien desarrollaron procesadores como el ARM9 y ARM11, utilizados en microcontroladores de alta performance y celulares. Luego del exito de estos procesadores, ARM diversifico a su portfolio presentando a la familia de procesadores Cortex, los cuales se dividen en los siguientes perfiles:
 	*Cortex-A: utilizado en aplicaciones que requieran manejar aplicaciones complejas como sistemas operativos de proposito general.
@@ -94,7 +94,7 @@ Preguntas orientadoras
 
 Es importante mencionar que el perfil A esta basado en la arquitectura ARMv7-A, el perfil R esta basado en la arquitectura ARMv7-R, y el perfil M se divide en arquitectura ARMv7-M y ARMv6-M.
 
-Cortex M
+---------------------Cortex M---------------------
 
 1. El perfil M tiene como principales procesadores al Cortex-M0, Cortex-M3 y Cortex-M4. El cortex-M0 esta enfocado a aplicaciones de bajo consumo energetico y baja complejidad, su arquitectura esta basada en la de ARMv6-M. El cortex-M3 es parecido al cortex-M4, debido a que los dos presentan a la mayoria de las instrucciones, tambien tienen el mismo modelo de manejo de interrupciones o NVIC. Sin embargo, el cortex-M4 es mejor para operaciones de procesamiento digital de senales. 
 
@@ -121,7 +121,14 @@ En el modo thread, el programa puede utilizar el registro CONTROL para cambiar d
 En los Cortex-M3/M4 se tienen 13 registros de proposito general, r0 a r12, que instrucciones como LDR, STR, ADD, etc utilizan. Ejemplo ldr r1, [r0] mov r2, 6 cmp r1 r2
 
 8. Posibilita utilizar menos ciclos del reloj para realizar ejecuciones condicionales, esto es debido a diferencia de instrucciones de branching como b o bx que vacian el pipeline, it mantiene  las instrucciones que esten en fetch y decode.
-Ejemplo:
+	
+	Ejemplo:
+	
+	ite eq 
+	streq r0, [r1]
+	strne r2, [r1]
+
+	El "t" indica then, que en este caso seria la instruccion "streq r0, [r1]". Se puede observar que no existen saltos condicionales.
 
 9. * El reseteo del procesador -que puede suceder de tres formas: power on reset, system reset y processor reset- hace que el PC sea cargado con la direccion de memoria de 0x00000000, luego el procesador lee los contenidos ubicados en esa direccion que es el MSP y en la direccion 0x00000004 esta el puntero al reset handler. El reset handler es una funcion que contiene distintas instrucciones para inicializar distintas funciones del microcontrolador y por ultimo realizar la llamada a main. 
    * NMI o Non maskable interrupt, es una ISR la cual no puede ser enmascarada/desactivada por PRIMASK o BASEPRI (flags que permiten desactivar las interrupciones)
@@ -139,26 +146,27 @@ Al efectuarse el reset, el PC es cargado con la direccion de memoria de 0x000000
 
 12. Los "Core peripherals" son los perifericos de propios de los procesadores ARM, y su diferencia principal con los otros perifericos es que estos son definidos por los fabricantes de microcontroladores. Los core peripherals del cortex-M3 son el NVIC, SCB, SysTick timer y la MPU.
 
-13. 
+13. El periferico denominado NVIC (Nested vector interrupt controller) es utilizado para implementar las interrupciones, Aqui, se pueden configurar hasta 240 interrupciones dependiendo del fabricante del microcontrolador. Los niveles de prioridad de las interrupciones de Reset, NMI y HardFault no son configurables (y tienen la mayor prioridad para el procesador), al contrario que las demas interrupciones que si pueden ser configuradas. Las funciones del CMSIS como NVIC_SetPriorityGrouping, NVIC_EnableIRQ y NVIC_SetPriority son utilzadas para configurar las interrupciones.
 
 14. Common Microcontroller Software Interface Standard o CMSIS, desarrollado por ARM, es una capa de abstraccion compuesta de APIs, frameworks y flujos de trabajo desarrollado para microcontroladores que utilizen procesadores ARM. Los componentes del CMSIS permiten al programador tener una interfaz al procesador y perifericos lo que conlleva a varias ventajas como por ejemplo; simplificacion del codigo, rehutilizacion de software y reduccion de la curva de aprendizaje para los desarrolladores.
 
-14.
+15. Cuando ocurre una interrupcion y luego de que el procesador obtenga la direccion de memoria, del vector de interrupciones, donde esta el puntero alinterrupt handler, el procesador realiza el proceso de stacking, el cual guarda el contexcto de ejecucion actual en el stack, y pasa al modo handler, donde se ejecutan las instrucciones definidas por el usuario y al finalizar la llamada se realiza el un-stacking, donde se retornan los registros correspondientes que estan en el stack al banco de registros para proseguir con el flujo normal del programa. 
 
-15.
+16. Late arrival es la ocurrencia de que durante el proceso de stacking por una interrupcion, llegue una interrupcion de mayor prioridad, esto hace que se ejecute primero esta interrupcion con mayor prioridad y luego la de menor prioridad. 
 
-16.
+Cuando se esta ejecutando una instruccion y llega otra interrupcion de igual o menor prioridad ocurre el Tail Chaining: La interrupcion que acaba de ingresar se pone en modo de espera a que la interrupcion que estaba corriendo antes termine, inmediatamente despues de que termine la primera interrupcion corre la segunda. 
 
 17. El SysTick o "system timer" es un periferico propio de varias familias de procesadores Cortex. En general, es utilizado para la generacion de unidad de tiempo en los sistemas operativos, facilitando asi a la portabilidad de los sistemas operativos, debido a que la generacion del tiempo se puede hacer de la misma manera en otros procesadores que cuenten con el SysTick.
  
 18. La MPU tiene como funciones principales la proteccion y definicion de atributos de regiones de memoria. En general se suele utilizar al MPU para hacer a los sistemas embebidos mas robustos, por ejemplo en un sistema operativo, puede evitar que una aplicacion escriba en memoria protegida que el kernel utiliza.  
 
-19. 
+19. Se puede configurar un maximo de 8 regiones, al tratar de acceder a regiones superpuestas se toma en cuenta la prioridad mas alta entre las regiones superpuestas, si se trata de acceder a una region de memoria que no este protegida por el MPU, se levantara una excepcion que puede ser de tipo MemManage o HardFault
 
 20. La excepcion PendSV es una interrupcion para solicitar servicios del sistema. Debido a que su nivel de interrupcion es de baja prioridad, se utiliza para solicitar un cambio de contexto de ejecucion de forma segura.
 
 21. El SVC (Supervisor Call) es una excepcion que es llamada luego de la ejecucion de la instruccion SVC. Esta instruccion es utilizada en los sistemas operativos para poder forzar a un cambio de contexto, en general para cambiar los privilegios de ejecucion. Asi el sistema operativo puede acceder a los recursos de hardware que considere necesario. 
-ISA
+
+---------------------ISA---------------------
 
 1. Los sufijos son utilizados en conjunto con algunas instrucciones, ya sea de procesamiento de datos o de ejecucion condicional, para actualizar los bits del APSR (status register). Los bits de este registro luego pueden ser utilizados para cambiar el flujo del programa. 
 
@@ -178,6 +186,10 @@ ISA
 
 Al contar con aritmetica saturada, el valor de sum se mantiene en 255 sin importar que el bucle siga. Sin contar con aritmetica saturada el valor de sum vuelve a cero cada vez que sobrepasa 255.
 
-4.
+4. Al llamar a una funcion, se guarda el contexto de ejecucion en el stack, luego Lo que se denomina calling convention define que r0 a r3 son los registros utilizados para pasar argumentos a las funciones. Si se van a utilizar mas registros, estos deben de ser guardados tambien en el stack por medio de push y recuperados antes de salir de la funcion por medio de pop. Cuando el programa retorna, lee los valores guardados en el stack y los carga en los registros pertinentes para asi volver al estado que estaba antes de llamar a la funcion.  
 
-5.
+5. SIMD o Single Instruction, Multiple Data son un tipo de instrucciones del Cortex-M4 que permite al procesador ser mas eficiente con aplicaciones DSP. Esta instrucciones, permite subdividir los registros de 32 bits para almacenar en ellos varios datos independientes unos de otros, por ejemplo 4 Bytes o 2 Half-word(| 1 Byte | 1 Byte | 1 Byte | 1 Byte | -- | 2 Bytes | 2 Bytes |) y de esta forma realizar operaciones matematicas de forma paralela.
+
+	Ejemplo: ldr r0, [r1]
+			 ldr r2, [r3]
+			 smuad r4, r0, r2 //Se multiplican los elementos (2 half-word) de r0 y r3 de forma paralela y suman, el resultado se almacena en r4.

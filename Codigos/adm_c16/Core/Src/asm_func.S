@@ -82,17 +82,20 @@
 @	r3: escalar
 .thumb_func
 	asm_productoEscalar32:
-
-	.asm_productoEscalar32_loop:
-		//Guardar valor en direccion R0 en R5 e incrementar en 4
-		ldr r5, [r0], 4
-		//Multiplicar R0 por R5 y guardar en R4
-		mul r4, r5, r3
-		//Guardar valor de R4 en R1 e incrementar en 4 direccion en R1
-		str r4, [r1], 4
-		//Restar longitud hasta que sea negativo
-		subs r2, 1
-		bne .asm_productoEscalar32_loop
+		push {r4}
+		push {r5}
+		.asm_productoEscalar32_loop:
+			//Guardar valor en direccion R0 en R5 e incrementar en 4
+			ldr r5, [r0], 4
+			//Multiplicar R0 por R5 y guardar en R4
+			mul r4, r5, r3
+			//Guardar valor de R4 en R1 e incrementar en 4 direccion en R1
+			str r4, [r1], 4
+			//Restar longitud hasta que sea negativo
+			subs r2, 1
+			bne .asm_productoEscalar32_loop
+		pop {r5}
+		pop {r4}
 		bx lr
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -106,26 +109,32 @@
 @	r3: escalar
 .thumb_func
 	asm_productoEscalar16:
+		push {r4}
+		push {r5}
+		push {r6}
 		mov r6, 65535
-	.asm_productoEscalar16_loop:
-		//Guardar valor en direccion R0 en R5 e incrementar en 4
-		ldrh r5, [r0], 2
-		//Multiplicar R0 por R5 y guardar en R4
-		mul r4, r5, r3
-		//Si el valor en R4 es mayor a 65535 cargar a registro
-		cmp r4, r6 			 //r4 > r6?
-		bgt greater_than
-		//Guardar valor de R4 en R1 e incrementar en 4 direccion en R1
-		strh r4, [r1], 2
-		b cont
-		greater_than:
-			mov r4, 65535
-			str r4, [r1], 2
-		//Restar longitud hasta que sea negativo
-		cont:
-			subs r2, 1
-			bne .asm_productoEscalar16_loop
-			bx lr
+		.asm_productoEscalar16_loop:
+			//Guardar valor en direccion R0 en R5 e incrementar en 4
+			ldrh r5, [r0], 2
+			//Multiplicar R0 por R5 y guardar en R4
+			mul r4, r5, r3
+			//Si el valor en R4 es mayor a 65535 cargar a registro
+			cmp r4, r6 			 //r4 > r6?
+			bgt greater_than
+			//Guardar valor de R4 en R1 e incrementar en 4 direccion en R1
+			strh r4, [r1], 2
+			b cont
+			greater_than:
+				mov r4, 65535
+				str r4, [r1], 2
+			//Restar longitud hasta que sea negativo
+			cont:
+				subs r2, 1
+				bne .asm_productoEscalar16_loop
+		pop {r6}
+		pop {r5}
+		pop {r4}
+		bx lr
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 @ Prototipo en "C":
@@ -138,26 +147,32 @@
 @	r3: escalar
 .thumb_func
 	asm_productoEscalar12:
+		push {r4}
+		push {r5}
+		push {r6}
 		mov r6, 4095
-	.asm_productoEscalar12_loop:
-		//Guardar valor en direccion R0 en R5 e incrementar en 4
-		ldrh r5, [r0], 2
-		//Multiplicar R0 por R5 y guardar en R4
-		mul r4, r5, r3
-		//Si el valor en R4 es mayor a 65535 cargar a registro
-		cmp r4, r6 			 //r4 > r6?
-		bgt greater_than12
-		//Guardar valor de R4 en R1 e incrementar en 4 direccion en R1
-		strh r4, [r1], 2
-		b cont12
-		greater_than12:
-			mov r4, 4095
-			str r4, [r1], 2
-		//Restar longitud hasta que sea negativo
-		cont12:
-			subs r2, 1
-			bne .asm_productoEscalar16_loop
-			bx lr
+		.asm_productoEscalar12_loop:
+			//Guardar valor en direccion R0 en R5 e incrementar en 4
+			ldrh r5, [r0], 2
+			//Multiplicar R0 por R5 y guardar en R4
+			mul r4, r5, r3
+			//Si el valor en R4 es mayor a 65535 cargar a registro
+			cmp r4, r6 			 //r4 > r6?
+			bgt greater_than12
+			//Guardar valor de R4 en R1 e incrementar en 4 direccion en R1
+			strh r4, [r1], 2
+			b cont12
+			greater_than12:
+				mov r4, 4095
+				str r4, [r1], 2
+			//Restar longitud hasta que sea negativo
+			cont12:
+				subs r2, 1
+				bne .asm_productoEscalar16_loop
+		pop {r6}
+		pop {r5}
+		pop {r4}
+		bx lr
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 @ Prototipo en "C":
@@ -180,13 +195,13 @@
 @	r2: longitud
 .thumb_func
 	asm_pack32to16:
-	.asm_pack32to16_loop:
-		ldr r3, [r0], 4
-		lsr r3, 16
-		strh r3, [r1], 2
-		subs r1, 1
-		bne .asm_pack32to16_loop
-	bx lr
+		.asm_pack32to16_loop:
+			ldr r3, [r0], 4
+			lsr r3, 16
+			strh r3, [r1], 2
+			subs r1, 1
+			bne .asm_pack32to16_loop
+		bx lr
 
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -199,6 +214,8 @@
 @   r1: longitud
 .thumb_func
 	asm_max:
+		push {r4}
+		push {r5}
 		ldr r2, [r0]
 		mov r4, 1
 		.asm_max_loop:
@@ -212,6 +229,8 @@
 				add r4, r4, 1
 				subs r1, 1
 				bne .asm_max_loop
+		pop {r5}
+		pop {r4}
 		bx lr
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 @ Prototipo en "C":
@@ -224,6 +243,11 @@
 @	r3: N
 .thumb_func
 	asm_downsampleM:
+		push {r4}
+		push {r5}
+
+		mov r4, 0 //indice del vector
+
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 @ Prototipo en "C":
@@ -234,6 +258,9 @@
 @   r1: longitud
 .thumb_func
 	asm_invertir:
+		push {r4}
+		push {r5}
+		push {r6}
 		lsr r2, r1, 1	//longitud >> 1
 		mov r3, 0		//i = 0
 		.asm_invertir_loop:
@@ -252,6 +279,9 @@
 			add r3, r3, 1 //i++
 			subs r2, 1
 			bne .asm_invertir_loop
+		pop {r6}
+		pop {r5}
+		pop {r4}
 		bx lr
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 @ Prototipo en "C":
